@@ -49,8 +49,14 @@ class Library:
         self.file.seek(0)
         for line in self.file.read().splitlines():
             line += "\n"
-            if not(line.__contains__(bookNameToRemove)):
-                newLines.append(line)
+            newLines.append(line)
+
+        for element in newLines:
+            if (element.__contains__(bookNameToRemove)):
+                newLines.remove(element)
+
+        for element in newLines:
+            print(element)
         self.file.truncate(0)
         self.file.writelines(newLines)
 
