@@ -4,6 +4,7 @@ class Library:
         self.file = open("books.txt", "a+")
         print("Welcome to the Library Management System!\n"
               "This is brought to you by Global AI Hub.\nWhich operation would you like to do today?")
+        self.printOptions()
 
     def __del__(self):
         self.file.close()
@@ -15,9 +16,8 @@ class Library:
     def listBooks(self):
         myList = []
         self.file.seek(0)
-        bookContent = self.file.read()
 
-        for line in bookContent.splitlines():
+        for line in self.file.read().splitlines():
             myList.append(line)
 
         index = 1
@@ -44,4 +44,15 @@ class Library:
         return
 
     def removeBook(self):
-        return
+        bookNameToRemove = input("Enter the title of the book that you want to remove: ")
+        newLines = []
+        self.file.seek(0)
+        for line in self.file.read().splitlines():
+            line += "\n"
+            if not(line.__contains__(bookNameToRemove)):
+                newLines.append(line)
+        self.file.truncate(0)
+        self.file.writelines(newLines)
+
+lib = Library()
+lib.removeBook()
