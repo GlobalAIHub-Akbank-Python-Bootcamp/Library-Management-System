@@ -4,7 +4,6 @@ class Library:
         self.file = open("books.txt", "a+")
         print("Welcome to the Library Management System!\n"
               "This is brought to you by Global AI Hub.\nWhich operation would you like to do today?")
-        self.printOptions()
 
     def __del__(self):
         self.file.close()
@@ -55,10 +54,23 @@ class Library:
             if (element.__contains__(bookNameToRemove)):
                 newLines.remove(element)
 
-        for element in newLines:
-            print(element)
         self.file.truncate(0)
         self.file.writelines(newLines)
 
+    def runProgram(self):
+        while True:
+            self.printOptions()
+            option = input("Enter your option: ")
+            if option == "1":
+                self.listBooks()
+            elif option == "2":
+                self.addBook()
+            elif option == "3":
+                self.removeBook()
+            elif option == "4":
+                break
+
+
+
 lib = Library()
-lib.removeBook()
+lib.runProgram()
