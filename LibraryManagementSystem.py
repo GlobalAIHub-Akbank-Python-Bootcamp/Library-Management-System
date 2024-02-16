@@ -19,6 +19,10 @@ class Library:
         for line in self.file.read().splitlines():
             myList.append(line)
 
+        if len(myList) == 0:
+            print("Library Management System does not have any books in its records yet.\n")
+            return
+
         index = 1
         for element in myList:
             firstOccurence = element.find(",")
@@ -32,6 +36,15 @@ class Library:
 
     def addBook(self):
         newString = input("Enter the title of the book: ")
+
+        self.file.seek(0)
+        for line in self.file.read().splitlines():
+            firstOccurence = line.find(",")
+            bookNameInFile = line[:firstOccurence]
+            if bookNameInFile == newString:
+                print("You cannot add this book! It is already in the Library Management System!\n")
+                return
+
         newString += ", "
         newString += input("Enter the author name of the book: ")
         newString += ", "
@@ -50,12 +63,20 @@ class Library:
             line += "\n"
             newLines.append(line)
 
+        flag = 0
         for element in newLines:
-            if (element.__contains__(bookNameToRemove)):
+            firstOccurence = element.find(",")
+            bookNameInLine = element[:firstOccurence]
+            if bookNameInLine == bookNameToRemove:
+                flag = 1
                 newLines.remove(element)
 
         self.file.truncate(0)
         self.file.writelines(newLines)
+        if flag == 0:
+            print(f"Book with name {bookNameToRemove} was not found in the Library Management System!\n")
+        elif flag == 1:
+            print(f"Book with name {bookNameToRemove} has been removed from the Library Management System successfully!\n")
 
     def runProgram(self):
         while True:
@@ -69,6 +90,7 @@ class Library:
                 self.removeBook()
             elif option == "4":
                 break
+
 
 
 
